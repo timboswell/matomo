@@ -11,13 +11,13 @@ services:
       - "MYSQL_USER=matomo"
       - "MYSQL_PASSWORD=asupersecretpassword"
     networks:
-      - matomo
+      - internal
     restart: always
 
   redis:
     image: redis:4.0-alpine
     networks:
-      - matomo
+      - internal
     restart: always
 
   msmtpd:
@@ -27,7 +27,7 @@ services:
     environment:
       - "TZ"
     networks:
-      - matomo
+      - internal
     restart: always
 
   geoip-updater:
@@ -39,7 +39,7 @@ services:
     environment:
       - "TZ"
     networks:
-      - matomo
+      - internal
     restart: always
 
   matomo:
@@ -53,10 +53,10 @@ services:
       - "./geoip-updater:/data/geoip"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.matomo.entrypoints=https"
+      - "traefik.http.routers.matomo.entrypoints=websecure"
       - "traefik.http.routers.matomo.rule=Host(`matomo.mgmt.sbob.uk`)"
       - "traefik.http.routers.matomo.tls=true"
-      - "traefik.http.routers.matomo.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.matomo.tls.certresolver=leresolver"
       - "traefik.http.routers.matomo.tls.domains[0].main=matomo.mgmt.sbob.uk"
       - "traefik.http.services.matomo.loadbalancer.server.port=8000"
     env_file:
@@ -64,7 +64,7 @@ services:
     environment:
       - "TZ"
     networks:
-      - matomo
+      - internal
       - web
     restart: always
 
@@ -85,11 +85,11 @@ services:
     healthcheck:
       disable: true
     networks:
-      - matomo
+      - internal
     restart: always
 
 networks:
   web:
     external:
       name: web
-  matomo:
+  internal:
