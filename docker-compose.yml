@@ -61,6 +61,7 @@ services:
       - "./geoip-updater:/data/geoip"
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=web"
       - "traefik.http.routers.matomo.entrypoints=websecure"
       - "traefik.http.routers.matomo.rule=Host(`matomo.mgmt.sbob.uk`)"
       - "traefik.http.routers.matomo.tls=true"
