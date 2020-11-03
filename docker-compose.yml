@@ -12,12 +12,16 @@ services:
       - "MYSQL_PASSWORD=asupersecretpassword"
     networks:
       - internal
+    labels:
+      - "traefik.enable=false"
     restart: always
 
   redis:
     image: redis:4.0-alpine
     networks:
       - internal
+    labels:
+      - "traefik.enable=false"
     restart: always
 
   msmtpd:
@@ -28,6 +32,8 @@ services:
       - "TZ"
     networks:
       - internal
+    labels:
+      - "traefik.enable=false"
     restart: always
 
   geoip-updater:
@@ -40,6 +46,8 @@ services:
       - "TZ"
     networks:
       - internal
+    labels:
+      - "traefik.enable=false"
     restart: always
 
   matomo:
@@ -86,6 +94,8 @@ services:
       disable: true
     networks:
       - internal
+    labels:
+      - "traefik.enable=false"
     restart: always
 
 networks:
