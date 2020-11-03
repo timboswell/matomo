@@ -72,8 +72,8 @@ services:
     environment:
       - "TZ"
     networks:
-      - internal
       - web
+      - internal
     restart: always
 
   cron:
